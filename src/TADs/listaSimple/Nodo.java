@@ -1,3 +1,5 @@
+package TADs.listaSimple;
+
 public class Nodo<T> {
 
     private T value;

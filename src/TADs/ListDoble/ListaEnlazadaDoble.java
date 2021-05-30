@@ -1,3 +1,7 @@
+package TADs.ListDoble;
+
+import TADs.Lista;
+
 public class ListaEnlazadaDoble<T> implements Lista<T> {
 
     private NodoDoble<T> first;
@@ -8,7 +12,7 @@ public class ListaEnlazadaDoble<T> implements Lista<T> {
     public String toString() {
         String str = "";
         for (int i = 1; i < size + 1; i++) {
-            str = str + "Elemento " + i + ": " + get(i).getValue() + "." + "\n";
+            str += "Elemento " + i + ": " + get(i).getValue() + "." + "\n";
         }
         return str;
     }

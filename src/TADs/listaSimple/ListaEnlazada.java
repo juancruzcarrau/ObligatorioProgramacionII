@@ -1,4 +1,6 @@
-import java.util.Objects;
+package TADs.listaSimple;
+
+import TADs.Lista;
 
 public class ListaEnlazada<T> implements Lista<T> {
 
