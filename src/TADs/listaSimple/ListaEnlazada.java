@@ -44,7 +44,7 @@ public class ListaEnlazada<T> implements Lista<T> {
 
     @Override
     public void add(T value) {
-        Nodo<T> newNodo = new Nodo<T>(value);
+        Nodo<T> newNodo = new Nodo<>(value);
 
         if (size == 0) {
             first = newNodo;
@@ -155,7 +155,7 @@ public class ListaEnlazada<T> implements Lista<T> {
     }
 
     public void addFirst (T value) {
-        Nodo<T> newNodo = new Nodo<T>(value);
+        Nodo<T> newNodo = new Nodo<>(value);
 
         if (size == 0) {
             last = newNodo;
@@ -170,7 +170,7 @@ public class ListaEnlazada<T> implements Lista<T> {
     }
 
     public void addLast (T value) {
-        Nodo<T> newNodo = new Nodo<T>(value);
+        Nodo<T> newNodo = new Nodo<>(value);
         add(value);
     }
 

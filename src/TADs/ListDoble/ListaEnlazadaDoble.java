@@ -12,14 +12,14 @@ public class ListaEnlazadaDoble<T> implements Lista<T> {
     public String toString() {
         String str = "";
         for (int i = 1; i < size + 1; i++) {
-            str += "Elemento " + i + ": " + get(i).getValue() + "." + "\n";
+            str = str + "Elemento " + i + ": " + get(i).getValue() + "." + "\n";
         }
         return str;
     }
 
     @Override
     public void add(T value) {
-        NodoDoble<T> newNodo = new NodoDoble<T>(value);
+        NodoDoble<T> newNodo = new NodoDoble<>(value);
 
         if (size == 0) {
             first = newNodo;
@@ -132,15 +132,4 @@ public class ListaEnlazadaDoble<T> implements Lista<T> {
             return true;
         }
     }
-
-    public static void main(String[] args) {
-        ListaEnlazadaDoble<Integer> test = new ListaEnlazadaDoble<>();
-        test.add(23);
-        test.add(24);
-        test.add(25);
-        System.out.println(test.toString());
-        test.remove(2);
-        System.out.println(test.toString());
-    }
-
 }
