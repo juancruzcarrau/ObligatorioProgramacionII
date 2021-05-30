@@ -1,3 +1,5 @@
+package TADs.ListDoble;
+
 public class NodoDoble<T> {
 
     private NodoDoble<T> previousValue;

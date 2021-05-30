@@ -1,3 +1,7 @@
+package TADs.ListDoble;
+
+import TADs.Lista;
+
 public class ListaEnlazadaDoble<T> implements Lista<T> {
 
     private NodoDoble<T> first;
@@ -15,7 +19,7 @@ public class ListaEnlazadaDoble<T> implements Lista<T> {
 
     @Override
     public void add(T value) {
-        NodoDoble<T> newNodo = new NodoDoble<T>(value);
+        NodoDoble<T> newNodo = new NodoDoble<>(value);
 
         if (size == 0) {
             first = newNodo;
@@ -128,15 +132,4 @@ public class ListaEnlazadaDoble<T> implements Lista<T> {
             return true;
         }
     }
-
-    public static void main(String[] args) {
-        ListaEnlazadaDoble<Integer> test = new ListaEnlazadaDoble<>();
-        test.add(23);
-        test.add(24);
-        test.add(25);
-        System.out.println(test.toString());
-        test.remove(2);
-        System.out.println(test.toString());
-    }
-
 }
