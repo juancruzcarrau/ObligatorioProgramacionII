@@ -12,7 +12,7 @@ public class Read {
 
         try {
             BufferedReader br = new BufferedReader( new FileReader(pathFran));
-            while(line = br.readLine() != null) {
+            while((line = br.readLine()) != null) {
                 String[] values = line.split(",");
             }
         }
