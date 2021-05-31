@@ -2,7 +2,12 @@ package entities;
 
 import TADs.listaSimple.ListaEnlazada;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import static java.lang.Float.parseFloat;
+import static java.lang.Integer.parseInt;
 
 public class Movie {
 
@@ -60,6 +65,31 @@ public class Movie {
         this.metaScore = metaScore;
         this.reviewsFromUsers = reviewsFromUsers;
         this.reviewsFromCritics = reviewsFromCritics;
+    }
+
+    public Movie(String[] metadata) throws ParseException {  // falta ver atributos tipo lista
+        this.imbdTitleId = metadata[0];
+        this.title = metadata[1];
+        this.originalTitle = metadata[2];
+        this.year = parseInt(metadata[3]);
+        this.datePublished = new SimpleDateFormat("yyyy-MM-dd").parse(metadata[4]);;
+        this.genre = metadata[5];
+        this.duration = parseInt(metadata[6]);
+        this.country = metadata[7];
+        this.language = metadata[8];
+        this.director = metadata[9];
+        this.writer = metadata[10];
+        this.productionCompany = metadata[11];
+        this.actors = metadata[12];
+        this.description = metadata[13];
+        this.avgVote = parseFloat(metadata[14]);
+        this.votes = parseInt(metadata[15]);
+        this.budget = metadata[16];
+        this.usaGrossIncome = metadata[17];
+        this.worldwideGrossIncome = metadata[18];
+        this.metaScore = parseFloat(metadata[19]);
+        this.reviewsFromUsers = parseFloat(metadata[20]);
+        this.reviewsFromCritics = parseFloat(metadata[21]);
     }
 
     public String getImbdTitleId() {
