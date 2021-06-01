@@ -1,8 +1,21 @@
+import TADs.listaSimple.ListaEnlazada;
+
 import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
+
+    public ListaEnlazada<String> listFromArray (String[] array) {
+        ListaEnlazada<String> list = new ListaEnlazada<>();
+
+        for (int i = 0; i < array.length; i++) {
+            list.add(array[i]);
+        }
+
+        return list;
+    }
+
 
     static Scanner scanner = new Scanner(System.in);
 

@@ -16,14 +16,14 @@ public class Movie {
     private final String originalTitle;
     private final int year;
     private final Date datePublished;
-    private final ListaEnlazada<String> genre;
+    private ListaEnlazada<String> genre;
     private final int duration;
-    private final ListaEnlazada<String> country;
+    private ListaEnlazada<String> country;
     private final String language;
-    private final ListaEnlazada<String> director;
-    private final ListaEnlazada<String> writer;
+    private ListaEnlazada<String> director;
+    private ListaEnlazada<String> writer;
     private final String productionCompany;
-    private final ListaEnlazada<String> actors;
+    private ListaEnlazada<String> actors;
     private final String description;
     private final float avgVote;
     private final int votes;
@@ -33,6 +33,11 @@ public class Movie {
     private final float metaScore;
     private final float reviewsFromUsers;
     private final float reviewsFromCritics;
+    private float weightedAverage;
+    private int totalVotes;
+    private float meanVote;
+    private float medianVote;
+    private ListaEnlazada<Integer> votesRating;
 
     public Movie(String imbdTitleId, String title, String originalTitle,
                  int year, Date datePublished, ListaEnlazada<String> genre,
@@ -42,7 +47,9 @@ public class Movie {
                  String description, float avgVote, int votes, String budget,
                  String usaGrossIncome, String worldwideGrossIncome,
                  float metaScore, float reviewsFromUsers,
-                 float reviewsFromCritics) {
+                 float reviewsFromCritics, float weightedAverage, int totalVotes,
+                 float meanVote, float medianVote, ListaEnlazada<Integer> votesRating) {
+
         this.imbdTitleId = imbdTitleId;
         this.title = title;
         this.originalTitle = originalTitle;
@@ -65,22 +72,28 @@ public class Movie {
         this.metaScore = metaScore;
         this.reviewsFromUsers = reviewsFromUsers;
         this.reviewsFromCritics = reviewsFromCritics;
+        this.weightedAverage = weightedAverage;
+        this.totalVotes = totalVotes;
+        this.meanVote = meanVote;
+        this.medianVote = medianVote;
+        this.votesRating = votesRating;
+
     }
 
-    public Movie(String[] metadata) throws ParseException {  // falta ver atributos tipo lista
+    public Movie(String[] metadata) throws ParseException {
         this.imbdTitleId = metadata[0];
         this.title = metadata[1];
         this.originalTitle = metadata[2];
         this.year = parseInt(metadata[3]);
         this.datePublished = new SimpleDateFormat("yyyy-MM-dd").parse(metadata[4]);;
-        this.genre = metadata[5];
+        this.genre = null;                       // metadata[5];
         this.duration = parseInt(metadata[6]);
-        this.country = metadata[7];
+        this.country = null;                     // metadata[7];
         this.language = metadata[8];
-        this.director = metadata[9];
-        this.writer = metadata[10];
+        this.director = null;                    // metadata[9];
+        this.writer = null;                      // metadata[10];
         this.productionCompany = metadata[11];
-        this.actors = metadata[12];
+        this.actors = null;                      // metadata[12];
         this.description = metadata[13];
         this.avgVote = parseFloat(metadata[14]);
         this.votes = parseInt(metadata[15]);
@@ -90,7 +103,36 @@ public class Movie {
         this.metaScore = parseFloat(metadata[19]);
         this.reviewsFromUsers = parseFloat(metadata[20]);
         this.reviewsFromCritics = parseFloat(metadata[21]);
+        this.weightedAverage = 0;
+        this.totalVotes = 0;
+        this.meanVote = 0;
+        this.medianVote = 0;
+        this.votesRating = null;
     }
+
+    // Setters de atributos tipo ListaEnlazada
+
+    public void setGenre(ListaEnlazada<String> genre) {
+        this.genre = genre;
+    }
+
+    public void setCountry(ListaEnlazada<String> country) {
+        this.country = country;
+    }
+
+    public void setDirector(ListaEnlazada<String> director) {
+        this.director = director;
+    }
+
+    public void setWriter(ListaEnlazada<String> writer) {
+        this.writer = writer;
+    }
+
+    public void setActors(ListaEnlazada<String> actors) {
+        this.actors = actors;
+    }
+
+    //
 
     public String getImbdTitleId() {
         return imbdTitleId;
@@ -179,4 +221,47 @@ public class Movie {
     public float getReviewsFromCritics() {
         return reviewsFromCritics;
     }
+
+    // MovieRating
+
+    public float getWeightedAverage() {
+        return weightedAverage;
+    }
+
+    public void setWeightedAverage(float weightedAverage) {
+        this.weightedAverage = weightedAverage;
+    }
+
+    public int getTotalVotes() {
+        return totalVotes;
+    }
+
+    public void setTotalVotes(int totalVotes) {
+        this.totalVotes = totalVotes;
+    }
+
+    public float getMeanVote() {
+        return meanVote;
+    }
+
+    public void setMeanVote(float meanVote) {
+        this.meanVote = meanVote;
+    }
+
+    public float getMedianVote() {
+        return medianVote;
+    }
+
+    public void setMedianVote(float medianVote) {
+        this.medianVote = medianVote;
+    }
+
+    public ListaEnlazada<Integer> getVotesRating() {
+        return votesRating;
+    }
+
+    public void setVotesRating(ListaEnlazada<Integer> votesRating) {
+        this.votesRating = votesRating;
+    }
+
 }
