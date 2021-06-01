@@ -1,21 +1,15 @@
 import TADs.listaSimple.ListaEnlazada;
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvValidationException;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
-
-    public ListaEnlazada<String> listFromArray (String[] array) {
-        ListaEnlazada<String> list = new ListaEnlazada<>();
-
-        for (int i = 0; i < array.length; i++) {
-            list.add(array[i]);
-        }
-
-        return list;
-    }
-
 
     static Scanner scanner = new Scanner(System.in);
 
@@ -43,7 +37,7 @@ public class Main {
             }
 
             if(seleccion == 1){
-//                cargarDatos();
+                cargarDatos();
             } else if (seleccion == 2){
 //                ejectutarConsultas();
             } else if (seleccion == 3){
@@ -52,5 +46,29 @@ public class Main {
                 throw new RuntimeException("Ha ocurrido un error. Seleccion no puede ser un nro distinto de 1, 2 o 3.");
             }
         }
+    }
+
+    private static void cargarDatos() {
+        String path = "dataset/";
+
+        try (CSVReader csvReader = new CSVReader(new FileReader(path + "IMDb movies.csv"))) {
+            String[] values = null;
+            while ((values = csvReader.readNext()) != null) {
+                //TODO
+            }
+        } catch (IOException | CsvValidationException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public ListaEnlazada<String> listFromArray (String[] array) {
+        ListaEnlazada<String> list = new ListaEnlazada<>();
+
+        for (String s : array) {
+            list.add(s);
+        }
+
+        return list;
     }
 }
