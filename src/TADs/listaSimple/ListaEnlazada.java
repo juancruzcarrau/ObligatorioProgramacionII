@@ -2,11 +2,18 @@ package TADs.listaSimple;
 
 import TADs.Lista;
 
-public class ListaEnlazada<T> implements Lista<T> {
+import TADs.heap.*;
+
+public class ListaEnlazada<T extends Comparable<T>> implements Lista<T> {
 
     private Nodo<T> first;
     private Nodo<T> last;
     private int size = 0;
+
+    public ListaEnlazada() {
+        this.first = null;
+        this.last = null;
+    }
 
     public int posicionFromValue (T value) throws NullPointerException {
         int pos = 1;
@@ -44,17 +51,18 @@ public class ListaEnlazada<T> implements Lista<T> {
 
     @Override
     public void add(T value) {
-        Nodo<T> newNodo = new Nodo<>(value);
+        Nodo<T> newNodo = new Nodo<T>(value);
 
-        if (size == 0) {
-            first = newNodo;
+        if (this.first == null && this.last == null) {
+            this.first = newNodo;
+            this.last = newNodo;
         }
 
         else {
-            last.setNextValue(newNodo);
+            this.last.setNextValue(newNodo);
+            this.last = newNodo;
         }
 
-        last = newNodo;
         size++;
     }
 
@@ -124,7 +132,7 @@ public class ListaEnlazada<T> implements Lista<T> {
                 i++;
             }
 
-            return temp; // Devuelve object si hago return temp.getValue().
+            return temp;
         }
 
     }
@@ -155,7 +163,7 @@ public class ListaEnlazada<T> implements Lista<T> {
     }
 
     public void addFirst (T value) {
-        Nodo<T> newNodo = new Nodo<>(value);
+        Nodo<T> newNodo = new Nodo<T>(value);
 
         if (size == 0) {
             last = newNodo;
@@ -163,14 +171,14 @@ public class ListaEnlazada<T> implements Lista<T> {
 
         else {
             newNodo.setNextValue(first);
-            }
+        }
 
         first = newNodo;
         size++;
     }
 
     public void addLast (T value) {
-        Nodo<T> newNodo = new Nodo<>(value);
+        Nodo<T> newNodo = new Nodo<T>(value);
         add(value);
     }
 
@@ -178,48 +186,212 @@ public class ListaEnlazada<T> implements Lista<T> {
         return size;
     }
 
-    public void sort () { // UTILIZO BUBBLE SORT. NECESITO QUE LA LISTA SEA DE INT PARA COMPARAR
-        for (int i = 2; i < size + 1; i++) {
-            for (int j = 2; j < size-i; j++){
+    public void BubbleSort () {
+        // EN EL MEJOR DE LOS CASOS ES DE ORDEN N. EN EL PEOR ES N2.
+        // ES MAS EFICIENTE QUE OTROS ALGORITMOS PORQUE SOLAMENTE SE RESERVAN ESPACIOS TEMPORALES PARA NODOS.
 
-                if ((Integer) first.getValue() > (Integer) get(2).getValue()) {
+        for (int i = 1; i < size + 1; i++) {
+            int count = 0;
+            for (int j = 1; j < size-i-1; j++){
+
+                if (first.getValue().compareTo(this.get(2).getValue()) > 0) {
                     T temp1 = first.getValue();
-                    T temp2 = get(2).getValue();
+                    T temp2 = this.get(2).getValue();
 
                     first.setValue(temp2);
-                    get(2).setValue(temp1);
+                    this.get(2).setValue(temp1);
+                    count = 1;
                 }
 
-                else if ((Integer) get(size-1).getValue() > (Integer) last.getValue()){
-                    T temp1 = get(size-1).getValue();
+                if (this.get(size-1).getValue().compareTo(last.getValue()) > 0){
+                    T temp1 = this.get(size-1).getValue();
                     T temp2 = last.getValue();
 
-                    get(size-1).setValue(temp2);
+                    this.get(size-1).setValue(temp2);
                     last.setValue(temp1);
+                    count = 1;
                 }
 
                 else {
-                    Integer elem1 = (Integer) get(j).getValue();
-                    Integer elem2 = (Integer) get(j+1).getValue();
-                    if (elem1 > elem2) {
-                        get(j-1).setNextValue(get(j+1));
-                        get(j+1).setNextValue(get(j));
-                        get(j).setNextValue(get(j+2));
+                    T elem1 = this.get(j).getValue();
+                    T elem2 = this.get(j+1).getValue();
+                    if (elem1.compareTo(elem2) > 0) {
+                        this.get(j-1).setNextValue(get(j+1));
+                        this.get(j+1).setNextValue(get(j));
+                        this.get(j).setNextValue(get(j+2));
+                        count = 1;
                     }
                 }
+
+                if (count == 1) { // O SEA QUE ENTRO A ALGUNO DE LOS IF (HUBO SWAP(S))
+                    return; // TERMINO EL METODO
+                }
+
             }
         }
     }
 
-    public void addSorted (T value) {
-        add(value);
-        sort();
+    public void trasposicionParImpar () {
+        for (int i = 1; i < size + 1; i++) {
+            int count1 = 0;
+            for (int j = 1; j < size-i-1; j=j+2){
+
+                if (first.getValue().compareTo(this.get(2).getValue()) > 0) {
+                    T temp1 = first.getValue();
+                    T temp2 = this.get(2).getValue();
+
+                    first.setValue(temp2);
+                    this.get(2).setValue(temp1);
+                    count1 = 1;
+                }
+
+                if (this.get(size-1).getValue().compareTo(last.getValue()) > 0){
+                    T temp1 = this.get(size-1).getValue();
+                    T temp2 = last.getValue();
+
+                    this.get(size-1).setValue(temp2);
+                    last.setValue(temp1);
+                    count1 = 1;
+                }
+
+                else {
+                    T elem1 = this.get(j).getValue();
+                    T elem2 = this.get(j+1).getValue();
+                    if (elem1.compareTo(elem2) > 0) {
+                        this.get(j-1).setNextValue(get(j+1));
+                        this.get(j+1).setNextValue(get(j));
+                        this.get(j).setNextValue(get(j+2));
+                        count1 = 1;
+                    }
+                }
+
+                if (count1 == 1) { // O SEA QUE ENTRO A ALGUNO DE LOS IF (HUBO SWAP(S))
+                    return; // TERMINO EL METODO
+                }
+
+            }
+
+            int count2 = 0;
+            for (int j = 2; j < size-i-1; j=j+2){
+
+                if (first.getValue().compareTo(this.get(2).getValue()) > 0) {
+                    T temp1 = first.getValue();
+                    T temp2 = this.get(2).getValue();
+
+                    first.setValue(temp2);
+                    this.get(2).setValue(temp1);
+                    count2 = 1;
+                }
+
+                if (this.get(size-1).getValue().compareTo(last.getValue()) > 0){
+                    T temp1 = this.get(size-1).getValue();
+                    T temp2 = last.getValue();
+
+                    this.get(size-1).setValue(temp2);
+                    last.setValue(temp1);
+                    count2 = 1;
+                }
+
+                else {
+                    T elem1 = this.get(j).getValue();
+                    T elem2 = this.get(j+1).getValue();
+                    if (elem1.compareTo(elem2) > 0) {
+                        this.get(j-1).setNextValue(get(j+1));
+                        this.get(j+1).setNextValue(get(j));
+                        this.get(j).setNextValue(get(j+2));
+                        count2 = 1;
+                    }
+                }
+
+                if (count2 == 1) { // O SEA QUE ENTRO A ALGUNO DE LOS IF (HUBO SWAP(S))
+                    return; // TERMINO EL METODO
+                }
+
+            }
+
+        }
     }
 
-    public void visualizar (ListaEnlazada<T> lista) {
-        for (int i = 1; i < size + 1; i++) {
-            int posicion = (Integer) get(i).getValue();
-            System.out.println(lista.get(posicion).toString());
+    public void swap (int position1, int position2) {
+        if (position1 <= 0 || position2 <= 0 || position1 > size || position2 > size) {
+            throw new IndexOutOfBoundsException();
+        }
+        else {
+            T temp1 = this.get(position1).getValue();
+            this.get(position1).setValue(this.get(position2).getValue());
+            this.get(position2).setValue(temp1);
+        }
+    }
+
+    public void ordenarPorSeleccion() {
+        // mejor caso: N, peor caso: N2
+        // es mejor con pocos elementos dado su BigO
+        for (int i = 1; i < this.size; i++) {
+
+            T temp = this.get(i).getValue();
+
+            for (int j = i + 1; j < this.size + 1; j++) {
+                if (temp.compareTo(this.get(j).getValue()) > 0) {
+                    this.swap(i,j);
+                }
+            }
+
+        }
+    }
+
+    public void ordenarPorInsercion() {
+        // mejor caso: N, peor caso: N2
+        for (int i = 2; i < this.size + 1; i++) {
+
+            T temp = this.get(i).getValue();
+
+            for (int j = 1; j < i; j++) {
+                while (this.get(j).getValue().compareTo(temp) > 0) {
+                    this.swap(i,j);
+                }
+            }
+
+        }
+    }
+
+    public ListaEnlazada<T> heapSort(int orden) { // tipo 1: descendente (heap maximo), tipo 2: ascendente (min)
+        // mejor caso: BigO(n)
+        // peor caso: BigO(nlogn)
+
+        try {
+            HeapImpl<T> heap = new HeapImpl<>(this.size(), orden);
+            ListaEnlazada<T> sorted = new ListaEnlazada<>();
+
+
+            for (int i = 1; i < this.size() + 1; i++) {
+                heap.insert(this.get(i).getValue());
+            }
+
+            for (int i = 0; i < this.size(); i++) {
+                T temp = heap.delete();
+                sorted.add(temp);
+            }
+
+            return sorted;
+        }
+
+        catch (EmptyHeapException e) {
+            System.out.println("Estructura vacia");
+        }
+
+        return null;
+
+    }
+
+    public void addSorted (T value) {
+        add(value);
+        ordenarPorInsercion();
+    }
+
+    public void visualizar () {
+        for (int i = 1; i < this.size + 1; i++) {
+            int posicion = (Integer) this.get(i).getValue();
+            System.out.println(this.get(posicion).toString());
         }
     }
 
@@ -232,7 +404,6 @@ public class ListaEnlazada<T> implements Lista<T> {
         else if (! find(value)) {
             throw new NullPointerException();
         }
-
 
         else if (pos == 1 && dir == -1) {
             throw new NullPointerException();
@@ -340,11 +511,11 @@ public class ListaEnlazada<T> implements Lista<T> {
         return total;
     }
 
-    public ListaEnlazada<T> listaPositivos() {             // EJERCICIO 11)a
-        ListaEnlazada<T> positivos = new ListaEnlazada<T>();
+    public ListaEnlazada<Integer> listaPositivos() {             // EJERCICIO 11)a
+        ListaEnlazada<Integer> positivos = new ListaEnlazada<Integer>();
         for (int i = 1; i < size() + 1; i++) {
             if ((Integer) get(i).getValue() >= 0) {
-                positivos.add(get(i).getValue());
+                positivos.add((Integer) get(i).getValue());
             }
         }
         return positivos;
@@ -365,14 +536,19 @@ public class ListaEnlazada<T> implements Lista<T> {
         ListaEnlazada<Integer> test = new ListaEnlazada<>();
         test.add(24);
         test.add(23);
+        test.add(28);
         test.add(27);
 
-        ListaEnlazada<Integer> test2 = new ListaEnlazada<>();
-        test2.add(2);
-        test2.add(3);
-        test2.add(27);
+        System.out.println(test.toString());
+        ListaEnlazada<Integer> lista = test.heapSort(2);
+        System.out.println(lista.toString());
 
-        System.out.println(test.notBoth(test2).toString());
+        //ListaEnlazada<Integer> test2 = new ListaEnlazada<>();
+        //test2.add(2);
+        //test2.add(3);
+        //test2.add(27);
+
+        //System.out.println(test.notBoth(test2).toString());
 
         //System.out.println(test.toString());
         //test.eliminarNodosPositivos();
@@ -386,10 +562,6 @@ public class ListaEnlazada<T> implements Lista<T> {
 
         //System.out.println(test.both(test2).size);
         //System.out.println(test.both(test2).toString());
-
-        //System.out.println(test.toString());
-        //test.sort();
-        //System.out.println(test.toString());
 
         //test.exchange(23,-1);
 
