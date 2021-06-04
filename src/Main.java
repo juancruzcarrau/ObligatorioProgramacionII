@@ -6,15 +6,7 @@ import java.util.Scanner;
 
 public class Main {
 
-    public ListaEnlazada<String> listFromArray (String[] array) {
-        ListaEnlazada<String> list = new ListaEnlazada<>();
 
-        for (int i = 0; i < array.length; i++) {
-            list.add(array[i]);
-        }
-
-        return list;
-    }
 
 
     static Scanner scanner = new Scanner(System.in);
@@ -52,5 +44,17 @@ public class Main {
                 throw new RuntimeException("Ha ocurrido un error. Seleccion no puede ser un nro distinto de 1, 2 o 3.");
             }
         }
+    }
+
+
+
+    public ListaEnlazada<String> listFromArray (String[] array) {
+        ListaEnlazada<String> list = new ListaEnlazada<>();
+
+        for (String s : array) {
+            list.add(s);
+        }
+
+        return list;
     }
 }
